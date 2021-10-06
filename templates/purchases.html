@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block titles %}Профиль{% endblock %}
+
+{% block content %}
+    <h1>{{ user }}
+    <h1>
+    <h3>{% translate 'Total spent' %}:{{ user.total_price }}
+    <h3>
+    {% for ticket in object_list %}
+        <div>
+            {% translate 'Hall' %}: {{ ticket.session.hall.name }} |
+            {% translate 'Session' %}: {{ ticket.session }} |
+            {% translate 'Ticket price' %}: {{ ticket.session.price }} |
+            {% translate 'Ticket' %}: {{ ticket.quantity }} |
+            {% translate 'Show date' %}: {{ ticket.session.get_show_date }}
+        </div>
+    {% endfor %}
+    {% if page_obj.paginator.num_pages > 1 %}
+        {% for num in page_obj.paginator.page_range %}
+            {% ifequal num page_obj.number %}
+                <span class="current"><b>{{ num }}</b></span>
+            {% else %}
+                <a href="?page={{ num }}"> {{ num }}</a>
+            {% endifequal %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
